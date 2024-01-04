@@ -1,0 +1,1 @@
+dir /B /O-N "C:\Program Files\Google\Chrome\Application" | findstr ^[0-9].* > ".\..\data\chrome_version.txt"
