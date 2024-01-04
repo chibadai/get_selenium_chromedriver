@@ -108,4 +108,27 @@ for json_data_idx in chrome_driver_version_dict.keys():
 # print(chrome_driver_version_dict[json_data_idx][key_version])
 print(chrome_driver_version_dict[json_data_idx - 1][key_version])
 print(chrome_driver_version_dict[json_data_idx - 1])
+
 # 上記のデータをダウンロードする
+chrome_download_url = chrome_driver_version_dict[json_data_idx - 1][key_platform]
+split_chrome_download_url = chrome_download_url.split("/")
+chrome_driver_download_url = (
+    "/".join(split_chrome_download_url[:-1])
+    + "/"
+    + split_chrome_download_url[-1].replace("chrome", "chromedriver")
+)
+# https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/win64/chrome-win64.zip
+# https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/win64/chromedriver-win64.zip
+print(chrome_driver_download_url)
+
+import io
+import zipfile
+import requests
+
+extract_dir = ".\data"
+
+response = requests.get(chrome_driver_download_url)
+bytes_io = io.BytesIO(response.content)
+
+with zipfile.ZipFile(bytes_io) as zip:
+    zip.extractall(extract_dir)
